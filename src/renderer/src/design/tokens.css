@@ -94,6 +94,15 @@
   --cth-panel-border-inset:    inset 0 0 0 1px var(--cth-ink-100);
   --cth-panel-border-terminal: inset 0 0 0 1px var(--cth-ink-300);
   --cth-panel-border-dialog:   inset 0 0 0 1px var(--cth-ink-500);
+
+  /* Brand mark — faz3a identity (Hermes wordmark/falcon). Black base, gold
+     accent. Not used by any structural component; scoped to the chrome
+     brand mark only. */
+  --cth-brand-black:      #0B0B0B;
+  --cth-brand-black-soft: #1C1C1C;
+  --cth-brand-gold:       #C9A227;
+  --cth-brand-gold-light: #E3C25A;
+  --cth-brand-gold-dark:  #9A7A1B;
 }
 
 /* ── Dark theme ──────────────────────────────────────────────────────────────
@@ -170,4 +179,12 @@
 
   /* Hard shadow reads as depth, not void */
   --cth-shadow-hard: 4px 4px 0 rgba(0, 0, 0, 0.45);
+
+  /* Brand mark — same gold in both themes; the mark sits on chrome, not on
+     body text, so no contrast retune is needed here. */
+  --cth-brand-black:      #0B0B0B;
+  --cth-brand-black-soft: #1C1C1C;
+  --cth-brand-gold:       #C9A227;
+  --cth-brand-gold-light: #E3C25A;
+  --cth-brand-gold-dark:  #9A7A1B;
 }

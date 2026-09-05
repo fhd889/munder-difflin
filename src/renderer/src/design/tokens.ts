@@ -49,6 +49,14 @@ export const colors = {
     woodDark: 0xc9a66b,
     path: 0xe8d8b0,
     wall: 0x8b6f47
+  },
+  // Brand mark — faz3a identity (Hermes wordmark/falcon). Mirrors tokens.css.
+  brand: {
+    black: 0x0b0b0b,
+    blackSoft: 0x1c1c1c,
+    gold: 0xc9a227,
+    goldLight: 0xe3c25a,
+    goldDark: 0x9a7a1b
   }
 } as const;
 
