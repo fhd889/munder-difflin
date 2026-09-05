@@ -31,7 +31,7 @@ import { FullscreenTerminal } from '@/components/FullscreenTerminal';
 import { TaskDetailOverlay } from '@/components/TaskDetailOverlay';
 import { IdePanel } from '@/ide/IdePanel';
 import { useHoldOptionToTalk } from '@/freeflow/holdOption';
-import brandLogo from '@brand/logo.png?url';
+import { FalconMark } from '@/components/FalconMark';
 
 // Injected at build time from package.json (see electron.vite.config.ts).
 declare const __APP_VERSION__: string;
@@ -295,11 +295,7 @@ export function App() {
           userSelect: 'none'
         }}
       >
-        <img
-          src={brandLogo}
-          alt="Munder Difflin"
-          style={{ height: 20, width: 'auto', display: 'block' }}
-        />
+        <FalconMark size={20} />
         {/* v0.3.7: the version is no longer inert text — it doubles as the
             update control (check / download / restart to update). */}
         <UpdateBadge />
