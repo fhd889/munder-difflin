@@ -490,8 +490,13 @@ function drawHeavyFace(buf: Buf, skin: string): void {
   set(buf, 7, 17, s.sh); set(buf, 10, 17, s.sh); // crease shadow between chin + roll
 }
 
+// Hermes (god/orchestrator, default display name — key stays 'michael', see
+// cast.ts): blonde hair worn long and half-up (closest available primitive is
+// the long 'styleFrame' cut), a white suit, and a gold accent standing in for
+// the belt — 'suit' has no separate waist primitive, so the tie slot (a
+// vertical stripe down the torso) carries the brand gold instead of a necktie.
 const RECIPES: Record<OfficeCharacterName, Recipe> = {
-  michael:  { skin: 'light', hairc: [58, 42, 28],   hair: 'styleShort',  hairargs: { part: 'L' }, cloth: 'suit', c1: [58, 63, 74], tie: [170, 58, 58], brow: 'flat', mouth: 'smile' },
+  michael:  { skin: 'light', hairc: [224, 196, 120], hair: 'styleFrame', hairargs: { length: 20, vol: 1 }, cloth: 'suit', c1: [238, 236, 230], tie: [201, 162, 39], brow: 'soft', mouth: 'smile', lashes: true },
   jim:      { skin: 'light', hairc: [92, 60, 34],   hair: 'styleFloppy', cloth: 'dressshirt', c1: [172, 196, 224], tie: [120, 130, 150], brow: 'flat', mouth: 'smile' },
   pam:      { skin: 'light', hairc: [120, 76, 42],  hair: 'styleFrame',  hairargs: { length: 18, vol: 2 }, cloth: 'cardigan', c1: [236, 174, 192], c2: [244, 242, 238], brow: 'soft', mouth: 'smile', blush: true, lashes: true },
   dwight:   { skin: 'light', hairc: [64, 48, 28],   hair: 'styleShort',  hairargs: { part: 'L', recede: 1 }, cloth: 'dressshirt', c1: [184, 155, 62], tie: [120, 82, 46], glasses: true, brow: 'angry', mouth: 'neutral' },
