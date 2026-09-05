@@ -11,7 +11,7 @@ import { ThoughtBubble } from './ThoughtBubble';
 // cover our status model.
 
 export type CharacterAnimation = 'idle' | 'walk' | 'type' | 'read';
-export type StatusGlyph = 'none' | 'blocked' | 'success' | 'compacting' | 'looping';
+export type StatusGlyph = 'none' | 'blocked' | 'success' | 'compacting' | 'looping' | 'typing';
 
 function lerp(a: number, b: number, t: number): number {
   const tt = Math.min(Math.max(t, 0), 1);
@@ -754,6 +754,15 @@ export class Character {
       const p = (Math.sin(this.glyphElapsed * 6) + 1) / 2; // 0..1
       const s = 2 + p * 3;
       g.rect(-s, yTop - s, s * 2, s * 2).fill(0x9b7ede);
+    } else if (this.statusGlyph === 'typing') {
+      // Three dots cycling above the head at ~2.2Hz — reads as "actively typing"
+      // while the agent is working/thinking (vs. the blank "…" thought bubble,
+      // which shows even when idle-waiting on a response).
+      const idx = Math.floor(this.glyphElapsed * 2.2 * 3) % 3;
+      for (let i = 0; i < 3; i++) {
+        const on = i === idx;
+        g.rect(-4 + i * 4, yTop + (on ? -1 : 0), 2, 2).fill(on ? 0x5bb7e8 : 0x6b5878);
+      }
     } else if (this.statusGlyph === 'looping') {
       // #5C — orange 4-dot warning ring with one lit dot spinning around it.
       const idx = Math.floor(this.glyphElapsed * 8) % 4;

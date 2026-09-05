@@ -150,19 +150,15 @@ function loadTexture(url: string): Promise<Texture> {
  *  with nothing concrete yet — the bubble renders an animated "…" for that. */
 function liveActivity(agent: Agent, fallback = ''): string {
   const action = (agent.action || '').trim();
-  if (action) return action;
-  return firstWords(agent.lastPrompt) || fallback;
+  if (action) return truncateLabel(action);
+  return truncateLabel(agent.lastPrompt) || fallback;
 }
 
-/** First few words of the last user prompt, for the desk card. */
-function firstWords(prompt: string | undefined, maxWords = 6, maxChars = 42): string {
-  if (!prompt) return '';
-  const words = prompt.trim().split(/\s+/);
-  let out = words.slice(0, maxWords).join(' ');
-  const truncatedWords = words.length > maxWords;
-  if (out.length > maxChars) out = out.slice(0, maxChars).trimEnd();
-  else if (truncatedWords) out += '…';
-  return out;
+/** Truncate a task label for the desk card/thought bubble to 28 chars + "…". */
+function truncateLabel(text: string | undefined, maxChars = 28): string {
+  if (!text) return '';
+  const trimmed = text.trim();
+  return trimmed.length > maxChars ? trimmed.slice(0, maxChars).trimEnd() + '…' : trimmed;
 }
 
 export function OfficeFloor() {
@@ -1508,7 +1504,7 @@ export function OfficeFloor() {
         switch (agent.status) {
           case 'working':
           case 'thinking':
-            c.setStatusGlyph('none');
+            c.setStatusGlyph('typing');
             c.sitAtDesk(true);
             c.showThought(liveActivity(agent), agent.carrying);
             break;
@@ -1521,14 +1517,17 @@ export function OfficeFloor() {
             c.showThought(liveActivity(agent, t('office.activity.waiting')), agent.carrying);
             break;
           case 'blocked':
+            // Sit the agent at its own desk (rather than walking it to the door)
+            // so a blocked agent reads as "at its station, waiting on you" instead
+            // of wandering off — the "!" glyph + "needs you" bubble still flag it.
             c.setStatusGlyph('blocked');
             c.showThought(liveActivity(agent, t('office.activity.needsYou')));
-            c.walkToTile(rt.waitTile);
+            c.sitAtDesk(false);
             break;
           case 'compacting':
             // #5C — mid-/compact: stay put at the desk, "boxing up" glyph + thought,
             // so an agent compacting context reads as busy rather than frozen.
-            c.setStatusGlyph('compacting');
+            c.setStatusGlyph('typing');
             c.sitAtDesk(true);
             c.showThought(liveActivity(agent, t('office.activity.compacting')));
             break;
