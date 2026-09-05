@@ -2765,6 +2765,15 @@ async function spawnAgentCore(opts: AgentSpawnOptions, owner: Electron.WebConten
         .trim().replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
       if (label) args.push('--remote-control-session-name-prefix', label);
     }
+    // Auto-enable Remote Control for the god session so a running fleet is always
+    // reachable from claude.ai / the mobile app without the user having to pass
+    // --remote-control by hand for every launch. Opt-out via
+    // MD_GOD_REMOTE_CONTROL=0. Non-god (worker) sessions are unaffected.
+    if (opts.hive.isGod && process.env.MD_GOD_REMOTE_CONTROL !== '0' && !args.includes('--remote-control')) {
+      const godLabel = (opts.hive.name || opts.hive.id || '')
+        .trim().replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '') || 'Michael';
+      args.push('--remote-control', `md-${godLabel}`);
+    }
     // Coarse runaway cap.
     if (typeof cfg.maxTurns === 'number' && cfg.maxTurns > 0 && !args.includes('--max-turns')) {
       args.push('--max-turns', String(cfg.maxTurns));
